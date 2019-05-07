@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: hzero-swagger
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:199711}
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  stream:
+    queue:
+      enabled: true
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: ${HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS:90000}
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+choerodon:
+  eureka:
+    event:
+      retry-time: 30
+      retry-interval: 10
+      skip-services: zipkin**, **gateway**, **register**, **oauth**
+
+hzero:
+  swagger:
+    client: ${HZERO_SWAGGER_CLIENT:client}
+    oauth-url: ${HZERO_OAUTH_URL:http://dev.hzero.org/oauth/oauth/authorize}
+    skip-service: ${HZERO_SWAGGER_SKIP_SERVICE:hzero-register, hzero-gateway, hzero-gateway-helper}
+    gateway-domain: ${HZERO_GATEWAY_DOMAIN:dev.hzero.org}
+    fetch-time: ${HZERO_SWAGGER_FETCH_TIME:20}
+    fetch-seconds: ${HZERO_SWAGGER_FETCH_SECONDS:30}
+
+logging:
+  level:
+    org.apache.ibatis: ${LOGGING_LEVEL:info}
+    org.hzero: ${LOGGING_LEVEL:info}
+    org.springframework.web: ${LOGGING_LEVEL:info}
+

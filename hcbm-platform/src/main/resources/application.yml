@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: hzero-platform
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:199711}
+    max-active: 200
+    max-wait: 60000
+    min-idle: 10
+  redis:
+    host: ${REDIS_DEFAULT_URL:redis.hzero.org}
+    port: 6379
+    database: 1
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: ${HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS:40000}
+ribbon:
+  ReadTimeout: ${RIBBON_READ_TIMEOUT:30000}
+  ConnectTimeout: ${RIBBON_CONNECT_TIMEOUT:3000}
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+choerodon:
+  resource:
+    pattern: /v1/*
+  saga:
+    consumer:
+      enabled: true
+    service: hzero-asgard
+
+hzero:
+  lov:
+    sql:
+      enabled: ${HZERO_LOV_SQL_ENABLED:true}
+    value:
+      enabled: ${HZERO_LOV_VALUE_ENABLED:true}
+  platform:
+    init-cache: ${HZERO_PLATFORM_INIT_CACHE:true}
+    http-protocol: ${HZERO_PLATFORM_HTTP_PROTOCOL:http}
+    role-template-codes:
+      - ${HZERO_SALES_TEMPLATE_CODE:role/organization/default/template/sales}
+      - ${HZERO_EXPERTS_TEMPLATE_CODE:role/organization/default/template/experts}
+  data:
+    permission:
+      db-owner: ${HZERO_DB_OWNER:}
+  scheduler:
+    executor-code: HPFM_EXECUTOR
+
+logging:
+  level:
+    io.choerodon: ${LOGGING_LEVEL:debug}
+    org.hzero.mybatis: ${LOGGING_LEVEL:debug}
+    org.hzero.platform: ${LOGGING_LEVEL:debug}
+    org.hzero.plugin.platform: ${LOGGING_LEVEL:debug}

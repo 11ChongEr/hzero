@@ -1,0 +1,155 @@
+spring:
+  application:
+    name: hzero-gateway-helper
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:199711}
+  cache:
+    multi:
+      l1:
+        enabled: false # 是否开启一级缓存
+        type: caffeine # 一级缓存实现。目前支持caffeine和guava
+      l2:
+        enabled: false # 是否开启二级缓存
+        type: redis # 二级缓存的实现
+      caches:
+        permission: # 请求对应的权限缓存
+          l1-spec: initialCapacity=50,maximumSize=500,expireAfterWrite=300s
+          l2-spec: expiration=300
+  redis:
+    host: redis.hzero.org
+    port: 6379
+    database: 4
+
+zuul:
+  servlet-path: /
+  addHostHeader: true
+  routes:
+    hiam:
+      path: /iam/**
+      serviceId: hzero-iam
+    hoth:
+      path: /oauth/**
+      serviceId: hzero-oauth
+      stripPrefix: false
+      sensitiveHeaders:
+    hcnf:
+      path: /hcnf/**
+      serviceId: hzero-config
+    hwgr:
+      path: /swagger/**
+      serviceId: hzero-swagger
+    hagd:
+      path: /hagd/**
+      serviceId: hzero-asgard
+    hsgp:
+      path: /hsgp/**
+      serviceId: hzero-governance
+    hpfm:
+      path: /hpfm/**
+      serviceId: hzero-platform
+    hfle:
+      path: /hfle/**
+      serviceId: hzero-file
+    hmsg:
+      path: /hmsg/**
+      serviceId: hzero-message
+    hsdr:
+      path: /hsdr/**
+      serviceId: hzero-scheduler
+    himp:
+      path: /himp/**
+      serviceId: hzero-import
+    hitf:
+      path: /hitf/**
+      serviceId: hzero-interface
+    hwfl:
+      path: /hwfl/**
+      serviceId: hzero-workflow
+    hwfe:
+      path: /editor/**
+      stripPrefix: false
+      serviceId: hzero-workflow-editor
+    hdtt:
+      path: /hdtt/**
+      serviceId: hzero-transfer
+    hdtw:
+      path: /hdtw/**
+      serviceId: hzero-dw
+    hptl:
+      path: /hptl/**
+      serviceId: hzero-portal
+    hrpt:
+      path: /hrpt/**
+      serviceId: hzero-report
+  semaphore:
+    max-semaphores: 300
+  sensitiveHeaders: Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: ${ZUUL_HOST_CONNECT_TIMEOUT_MILLIS:40000}
+    socket-timeout-millis: ${ZUUL_HOST_SOCKET_TIMEOUT_MILLIS:40000}
+
+ribbon:
+  ReadTimeout: ${RIBBON_READ_TIMEOUT:30000}
+  ConnectTimeout: ${RIBBON_CONNECT_TIMEOUT:3000}
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+hystrix:
+  stream:
+    queue:
+      enabled: true
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: ${HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS:90000}
+  shareSecurityContext: true # added by mingwei.liu@hand-china.com for share the token
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+choerodon:
+  helper:
+    jwt-key: choerodon # jwt的密钥
+    oauth-info-uri: ${SECURITY_OAUTH2_USER_INFO_URI:http://hzero-oauth/oauth/api/user} # oauth获取userDetail地址
+    permission:
+      enabled: true # 是否开启权限校验
+      skip-paths: /swagger/docs/**, /**/skip/**, /oauth/**, /prometheus, /health, /env, /metrics, /favicon.ico # 跳过权限校验路径
+      cache-seconds: 600 # 请求地址和对应的权限缓存时间
+      cache-size: 3000  # 请求地址和对应的权限缓存大小
+
+hzero:
+  hystrix:
+    request-attribute:
+      enabled: false
+  gateway:
+    filter:
+      collect-span:
+        # 是否统计API访问情况
+        enabled: ${HZERO_GATEWAY_FILTER_COLLECT_SPAN_ENABLED:false}
+      developer:
+        # 开发者带数字后缀的不检查权限
+        enabled: ${HZERO_GATEWAY_FILTER_DEVELOPER_ENABLED:true}
+      common-request:
+        # 组织级API是否必须检查组织参数
+        check-organization: ${HZERO_GATEWAY_FILTER_COMMON-REQUEST_CHECK-ORGANIZATION:true}
+        # 项目级API是否必须检查项目参数
+        check-project: ${HZERO_GATEWAY_FILTER_COMMON-REQUEST_CHECK-PROJECT:true}
+  data:
+    permission:
+      db-owner: ${HZERO_DB_OWNER:}
+
+logging:
+  level:
+    io.choerodon: ${LOGGING_LEVEL:info}
+    org.hzero: ${LOGGING_LEVEL:info}
+

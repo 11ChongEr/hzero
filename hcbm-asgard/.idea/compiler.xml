@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hcbm-asgard" />
+        <module name="hcbm-config" />
+        <module name="hcbm-file" />
+        <module name="hcbm-gateway" />
+        <module name="hcbm-gateway-helper" />
+        <module name="hcbm-iam" />
+        <module name="hcbm-import" />
+        <module name="hcbm-interface" />
+        <module name="hcbm-message" />
+        <module name="hcbm-oauth" />
+        <module name="hcbm-platform" />
+        <module name="hcbm-portal" />
+        <module name="hcbm-report" />
+        <module name="hcbm-scheduler" />
+        <module name="hcbm-swagger" />
+        <module name="hcbm-workflow" />
+        <module name="hcbm-workflow-editor" />
+        <module name="hzero-register" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hzero-config" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

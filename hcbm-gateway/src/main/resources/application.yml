@@ -1,0 +1,119 @@
+spring:
+  application:
+    name: hzero-gateway
+  http:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  redis:
+    host: ${SPRING_REDIS_HOST:redis.hzero.org}
+    port: 6379
+    database: ${SPRING_REDIS_DATABASE:4}
+
+zuul:
+  addHostHeader: true
+  routes:
+    hiam:
+      path: /iam/**
+      serviceId: hzero-iam
+    hoth:
+      path: /oauth/**
+      serviceId: hzero-oauth
+      stripPrefix: false
+      sensitiveHeaders:
+    hcnf:
+      path: /hcnf/**
+      serviceId: hzero-config
+    hwgr:
+      path: /swagger/**
+      serviceId: hzero-swagger
+    hagd:
+      path: /hagd/**
+      serviceId: hzero-asgard
+    hsgp:
+      path: /hsgp/**
+      serviceId: hzero-governance
+    hpfm:
+      path: /hpfm/**
+      serviceId: hzero-platform
+    hfle:
+      path: /hfle/**
+      serviceId: hzero-file
+    hmsg:
+      path: /hmsg/**
+      serviceId: hzero-message
+    hsdr:
+      path: /hsdr/**
+      serviceId: hzero-scheduler
+    himp:
+      path: /himp/**
+      serviceId: hzero-import
+    hitf:
+      path: /hitf/**
+      serviceId: hzero-interface
+    hwfl:
+      path: /hwfl/**
+      serviceId: hzero-workflow
+    hwfe:
+      path: /editor/**
+      stripPrefix: false
+      serviceId: hzero-workflow-editor
+    hdtt:
+      path: /hdtt/**
+      serviceId: hzero-transfer
+    hdtw:
+      path: /hdtw/**
+      serviceId: hzero-dw
+    hptl:
+      path: /hptl/**
+      serviceId: hzero-portal
+    hrpt:
+      path: /hrpt/**
+      serviceId: hzero-report
+  semaphore:
+    max-semaphores: 300
+  sensitiveHeaders: Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: ${ZUUL_HOST_CONNECT_TIMEOUT_MILLIS:40000}
+    socket-timeout-millis: ${ZUUL_HOST_SOCKET_TIMEOUT_MILLIS:40000}
+feign:
+  hystrix:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: ${HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS:40000}
+
+ribbon:
+  # 内部调用不限制请求时间
+  ReadTimeout: ${RIBBON_READ_TIMEOUT:30000}
+  # 限制连接建立时间
+  ConnectTimeout: ${RIBBON_CONNECT_TIMEOUT:3000}
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+choerodon:
+  gateway:
+    helper:
+      service-id: hzero-gateway-helper
+      enabled: true
+      enabled-jwt-log: false
+      helper-skip-paths:
+        - /oauth/**
+        - /swagger/swagger-ui.html
+        - /swagger/swagger-resources/**
+        - /swagger/webjars/**
+        - /swagger/docs/**
+
+logging:
+  level:
+    io.choerodon: ${LOGGING_LEVEL:info}
+    org.hzero: ${LOGGING_LEVEL:info}
+    org.springframework.web: ${LOGGING_LEVEL:info}
+    org.springframework.cloud: ${LOGGING_LEVEL:info}

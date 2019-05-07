@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: hzero-config
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:199711}
+  cloud:
+    config:
+      server:
+        git:
+          searchPaths: '{profile}'
+        bootstrap: false # 已自行装配bean,勿设置为true
+  profiles:
+    active: db # db:使用自定义的配置仓库  git: 使用git作为配置仓库
+  redis:
+    host: redis.hzero.org
+    port: 6379
+    database: 4
+feign:
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 10000
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+choerodon:
+  eureka:
+    event:
+      retry-time: 30
+      retry-interval: 10
+      skip-services: zipkin**, **gateway**, **register**, **oauth**
+
+hzero:
+  config-server:
+    enable-governance: false
+    product-code: ${PRODUCT_CODE:HZERO}
+    product-env-code: ${PRODUCT_CODE:HZERO}-ENV
+    gateway-names: hzero-gateway, hzero-gateway-helper
+
+logging:
+  level:
+    org.springframework.web: ${LOGGING_LEVEL:debug}
+    org.apache.ibatis: ${LOGGING_LEVEL:debug}
+    io.choerodon: ${LOGGING_LEVEL:debug}
+    org.hzero: ${LOGGING_LEVEL:debug}

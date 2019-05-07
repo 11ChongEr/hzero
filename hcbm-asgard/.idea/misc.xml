@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-file/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-gateway-helper/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-iam/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-import/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-interface/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-message/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-oauth/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-platform/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-portal/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-report/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-scheduler/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-swagger/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-workflow/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-workflow-editor/pom.xml" />
+        <option value="$PROJECT_DIR$/../hzero-register/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-config/hcbm-config/pom.xml" />
+        <option value="$PROJECT_DIR$/../hcbm-config/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
